@@ -81,6 +81,16 @@ class Process(GameObject):
             and not self.has_ended
         )
 
+    @property
+    def sort_key(self):
+        key = (
+            self.starvation_level * 5000
+            + self._last_starvation_level_change_time - self._last_update_time
+        )
+        if self.is_waiting_for_io:
+            key += 40000
+        return key
+
     def use_cpu(self):
         if not self.has_cpu:
             for cpu in self._process_manager.cpu_list:

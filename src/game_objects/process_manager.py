@@ -141,6 +141,18 @@ class ProcessManager(GameObject):
             return True
         return False
 
+    def _sort_idle_processes(self):
+        idle_processes = [process for process in self._alive_process_list if not process.has_cpu]
+        idle_processes.sort(key=lambda process: process.sort_key)
+
+        for slot in self.process_slots:
+            slot.process = None
+
+        for i, process in enumerate(idle_processes):
+            slot = self._process_slots[i]
+            slot.process = process
+            process.view.set_target_xy(slot.view.x, slot.view.y)
+
     def terminate_process(self, process, by_user):
         can_terminate = False
 
@@ -209,6 +221,8 @@ class ProcessManager(GameObject):
                         cpu = self._cpu_list[cpu_id]
                         if cpu.has_process:
                             cpu.process.yield_cpu()
+            if event.type == GameEventType.KEY_UP and event.get_property('key') == 's':
+                self._sort_idle_processes()
 
         if self._user_terminated_process_count == self.MAX_TERMINATED_BY_USER:
             processes_are_moving = False
