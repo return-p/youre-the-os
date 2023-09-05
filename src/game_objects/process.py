@@ -8,6 +8,8 @@ from game_objects.views.process_view import ProcessView
 
 class Process(GameObject):
     _ANIMATION_SPEED = 35
+    _STARVATION_LEVEL_DURATION = 10000
+    _MAX_STARVATION_LEVEL = 5
 
     def __init__(self, pid, game):
         self._pid = pid
@@ -84,11 +86,13 @@ class Process(GameObject):
     @property
     def sort_key(self):
         key = (
-            self.starvation_level * 5000
-            + self._last_starvation_level_change_time - self._last_update_time
+            Process._MAX_STARVATION_LEVEL
+            - self.starvation_level * Process._STARVATION_LEVEL_DURATION
+            + Process._STARVATION_LEVEL_DURATION
+            - (self._last_update_time - self._last_starvation_level_change_time)
         )
         if self.is_waiting_for_io:
-            key += 40000
+            key += Process._MAX_STARVATION_LEVEL * Process._STARVATION_LEVEL_DURATION
         return key
 
     def use_cpu(self):
@@ -254,9 +258,9 @@ class Process(GameObject):
                     if current_time - self._last_state_change_time >= 1000 and randint(1, 100) == 1:
                         self._terminate_gracefully()
 
-                elif current_time >= self._last_starvation_level_change_time + 10000:
+                elif current_time >= self._last_starvation_level_change_time + Process._STARVATION_LEVEL_DURATION:
                     self._last_starvation_level_change_time = current_time
-                    if self._starvation_level < 5:
+                    if self._starvation_level < Process._MAX_STARVATION_LEVEL:
                         self._starvation_level += 1
                         event_manager.event_process_starvation(
                             self._pid, self._starvation_level)
