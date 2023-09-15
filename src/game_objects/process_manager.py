@@ -11,13 +11,19 @@ from game_objects.process import Process
 from game_objects.views.process_manager_view import ProcessManagerView
 from game_objects.process_slot import ProcessSlot
 from window_size import WINDOW_HEIGHT
+# config.txt를 이용하여 키 매핑 등 추가설정
+from game_objects.process import _NUM_KEYS2
+from game_objects.process import life
 
-_NUM_KEYS = list(map(str, range(10))) + list(map(lambda i: f'[{str(i)}]', range(10)))
+#_NUM_KEYS = list(map(str, range(10))) + list(map(lambda i: f'[{str(i)}]', range(10)))
+
+
+
 
 class ProcessManager(GameObject):
     _MAX_PROCESSES = 42
 
-    MAX_TERMINATED_BY_USER = 10
+    MAX_TERMINATED_BY_USER = life
 
     def __init__(self, game):
         self._game = game
@@ -199,8 +205,9 @@ class ProcessManager(GameObject):
     def update(self, current_time, events):
         for event in events:
             if event.type == GameEventType.KEY_UP:
-                if event.get_property('key') in _NUM_KEYS:
-                    cpu_id = int(re.search(r'\d', event.get_property('key')).group()) - 1
+                if event.get_property('key') in _NUM_KEYS2:
+                    cpu_id = _NUM_KEYS2.index(event.get_property('key'))
+#                    cpu_id = int(re.search(r'\d', event.get_property('key')).group()) - 1
                     if cpu_id == -1:
                         cpu_id = 9
                     if event.get_property('shift'):

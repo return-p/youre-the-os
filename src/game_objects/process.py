@@ -1,10 +1,28 @@
 from math import sqrt
 from random import randint
 
+import re
+
 from lib import event_manager
 from lib.game_object import GameObject
 from lib.game_event_type import GameEventType
 from game_objects.views.process_view import ProcessView
+
+# Config.txt를 이용한 추가 설정들
+_NUM_KEYS2 = []
+f_in = open('..\\config.txt', encoding='UTF8')
+for line in f_in:
+    line = line.strip()
+    if re.search(r'\d+',line):
+        line = line.split()
+        if len(_NUM_KEYS2) < 16:
+            _NUM_KEYS2.append(line[1])
+        elif len(_NUM_KEYS2) >= 16:
+            if int(re.search(r'\d+',line[0]).group()) == 17:
+                term_prob = int(re.search(r'\d+',line[1]).group())
+            elif int(re.search(r'\d+', line[0]).group()) == 18:
+                life = int(re.search(r'\d+', line[1]).group())
+f_in.close()
 
 class Process(GameObject):
     _ANIMATION_SPEED = 35
@@ -106,6 +124,7 @@ class Process(GameObject):
                         event_manager.event_page_new(page.pid, page.idx, page.in_swap, page.in_use)
                 for page in self._pages:
                     page.in_use = True
+
                     event_manager.event_page_use(page.pid, page.idx, page.in_use)
 
     def yield_cpu(self):
@@ -241,7 +260,7 @@ class Process(GameObject):
                         new_page.in_use = True
                         event_manager.event_page_new(
                             new_page.pid, new_page.idx, new_page.in_swap, new_page.in_use)
-                    if current_time - self._last_state_change_time >= 1000 and randint(1, 100) == 1:
+                    if current_time - self._last_state_change_time >= 1000 and randint(1, 100) <= term_prob:
                         self._terminate_gracefully()
 
                 elif current_time >= self._last_starvation_level_change_time + 10000:
