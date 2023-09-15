@@ -54,7 +54,7 @@ main_menu_scene.start()
 
 clock = pygame.time.Clock()
 
-FPS = 60
+FPS = 120
 
 
 async def main():
@@ -100,7 +100,7 @@ async def main():
                 mouse_event_added = True
                 mouse_drag_event = event
 
-        scene_manager.current_scene.update(scene_manager.current_scene.current_time, events)
+        scene_manager.current_scene.update(pygame.time.get_ticks(), events)
         scene_manager.current_scene.render()
 
         clock.tick(FPS)

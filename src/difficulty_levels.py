@@ -1,6 +1,6 @@
 _easy_difficulty = {
     'config': {
-        'name': 'Easy',
+        'name': '쉬움',
         'num_cpus': 4,
         'num_processes_at_startup': 14,
         'num_ram_rows': 8,
@@ -11,7 +11,7 @@ _easy_difficulty = {
 
 _normal_difficulty = {
     'config': {
-        'name': 'Normal',
+        'name': '중간',
         'num_cpus': 4,
         'num_processes_at_startup': 14,
         'num_ram_rows': 5,
@@ -22,7 +22,7 @@ _normal_difficulty = {
 
 _hard_difficulty = {
     'config': {
-        'name': 'Hard',
+        'name': '어려움',
         'num_cpus': 8,
         'num_processes_at_startup': 28,
         'num_ram_rows': 6,
@@ -33,7 +33,7 @@ _hard_difficulty = {
 
 _harder_difficulty = {
     'config': {
-        'name': 'Harder',
+        'name': '더 어려움',
         'num_cpus': 12,
         'num_processes_at_startup': 35,
         'num_ram_rows': 6,
@@ -44,7 +44,7 @@ _harder_difficulty = {
 
 _insane_difficulty = {
     'config': {
-        'name': 'Insane',
+        'name': '미침',
         'num_cpus': 16,
         'num_processes_at_startup': 42,
         'num_ram_rows': 4,
