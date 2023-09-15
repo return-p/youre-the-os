@@ -1,0 +1,23 @@
+Key setting (각 CPU 번호에 해당하는 키)
+1: 1
+2: 2
+3: 3
+4: 4
+5: q
+6: w
+7: e
+8: r
+9: a
+10: s
+11: d
+12: f
+13: z
+14: x
+15: c
+16: v
+
+Normal Terminate Probability (정상 종료 확률, %)
+17: 10
+
+Life (목숨, 개수)
+18: 10
