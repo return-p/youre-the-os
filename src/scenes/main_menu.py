@@ -35,20 +35,20 @@ class MainMenu(Scene):
 
         difficulty_level_names = list(
             map(lambda difficulty_level: difficulty_level['config']['name'], difficulty_levels))
-        difficulty_level_names.append('Custom')
+        difficulty_level_names.append('커스텀')
         self._difficulty_selector = OptionSelector(difficulty_level_names, 1)
         self._difficulty_selector.view.set_xy(
             (self._screen.get_width() - self._difficulty_selector.view.width) / 2,
             difficulty_selection_label.view.y + difficulty_selection_label.view.height + 20)
         self._scene_objects.append(self._difficulty_selector)
 
-        play_button = Button('Play', self._on_start_button_click)
+        play_button = Button('시작', self._on_start_button_click)
         play_button.view.set_xy(
             (self._screen.get_width() - play_button.view.width) / 2,
             self._difficulty_selector.view.y + self._difficulty_selector.view.height + 20)
         self._scene_objects.append(play_button)
 
-        how_to_play_button = Button('How to Play', self._start_how_to_play)
+        how_to_play_button = Button('하는 방법', self._start_how_to_play)
         how_to_play_button.view.set_xy(
             150,
             self._screen.get_height() - how_to_play_button.view.height - 100
@@ -56,14 +56,14 @@ class MainMenu(Scene):
         self._scene_objects.append(how_to_play_button)
 
         key_binding_button = Button(
-            'Key Bindings', self._open_key_binding_dialog)
+            '키 설정', self._open_key_binding_dialog)
         key_binding_button.view.set_xy(
             how_to_play_button.view.x + how_to_play_button.view.width + 20,
             self._screen.get_height() - key_binding_button.view.height - 100
         )
         self._scene_objects.append(key_binding_button)
 
-        about_button = Button('About', self._open_about_dialog)
+        about_button = Button('게임에 대하여', self._open_about_dialog)
         about_button.view.set_xy(
             self._screen.get_width() - about_button.view.width - 150,
             self._screen.get_height() - about_button.view.height - 100
